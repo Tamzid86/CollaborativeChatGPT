@@ -1,0 +1,73 @@
+
+
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: #2791cf;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  color: white;
+  text-align: center;
+}
+
+.container h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.form {
+  margin-top: 20px;
+}
+
+.form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.form button {
+  background-color: #45a049;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form button:hover {
+  background-color: #2791cf;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Study with ChatGPT</h1>
+  <form class="form" id="post-form" action="checkview" method="post">
+    {% csrf_token %}
+    <input type="text" name="room_name" placeholder="Enter group name" required>
+    <input type="text" name="username" placeholder="Enter username" required>
+    <button type="submit">Join Chat</button>
+  </form>
+</div>
+
+</body>
+</html>
