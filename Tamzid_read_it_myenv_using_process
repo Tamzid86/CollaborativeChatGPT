@@ -1,0 +1,10 @@
+In your command line , type : 
+ go to myenv 
+ and turn it on
+ Commands to use: 
+    myenv\Scripts\activate
+    python manage.py runserver
+If python manage.py runserver does not work:
+    pip install django 
+For more details : 
+https://csguide.cs.princeton.edu/software/virtualenv#:~:text=Virtual%20environments%20let%20you%20have,many%20venvs%20as%20you%20want.
