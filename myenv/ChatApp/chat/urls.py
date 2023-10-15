@@ -1,4 +1,5 @@
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
@@ -8,4 +9,5 @@ urlpatterns = [
     path('send', views.send, name='send'),
     path('getMessages/<str:room>/', views.getMessages, name='getMessages'),
     path('getResponse', views.getResponse, name='getResponse'),
+    path('reportError', views.reportError, name='reportError'),
 ]

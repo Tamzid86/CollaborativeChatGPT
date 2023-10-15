@@ -4,7 +4,7 @@
   ],
   "hints": {
     "axe/text-alternatives": [
-      "default",
+      "off",
       {
         "document-title": "off"
       }
@@ -13,6 +13,12 @@
       "default",
       {
         "html-has-lang": "off"
+      }
+    ],
+    "axe/forms": [
+      "default",
+      {
+        "select-name": "off"
       }
     ]
   }
