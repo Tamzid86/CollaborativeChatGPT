@@ -48,7 +48,7 @@ def getResponse(request):
     message = request.POST['message']
     username = request.POST['username']
     room_id = request.POST['room_id']
-    openai.api_key = "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"
+    openai.api_key = "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"
     # Call the ChatGPT API to generate a response
     response = openai.Completion.create(
         engine="text-davinci-002",  # Specify the ChatGPT engine
