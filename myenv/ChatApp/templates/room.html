@@ -135,7 +135,6 @@
     $(document).ready(function () {
         var selectionMode = false;
         var selectedText = '';
-
         function getCurrentTime() {
             var now = new Date();
             var hours = now.getHours();
@@ -166,6 +165,10 @@
                     selectedText = '';
                     $(this).removeClass("selected-text");
                     $(".error-section").hide();
+                    // Clear text area
+                    $('#user-remarks').val('');
+                    // Uncheck checkboxes
+                    $('input[type=checkbox]').prop('checked', false);
                 }
             });
         }
@@ -203,6 +206,12 @@
                         alert('Error reported successfully');
                         selectionMode = false;
                         $(".error-section").hide();
+                        // Clear text area
+                        $('#user-remarks').val('');
+                        // Uncheck checkboxes
+                        $('input[type=checkbox]').prop('checked', false);
+                        // Deselect generated message
+                        $('#generated-message').removeClass("selected-text");
                     },
                     error: function () {
                         alert('An error occurred while reporting the error');
@@ -242,6 +251,26 @@
             e.preventDefault();
             handleSubmit();
         });
+
+        function getAndDisplayMessages() {
+            var roomName = "{{ room }}";
+            console.log(roomName);
+            $.ajax({
+                type: 'GET',
+                url: "/getMessages/{{room}}/",
+                success: function (data) {
+                    var messages = data.messages;
+                    for (var message of messages) {
+                        displayUserMessage(message.user, message.value, message.date);
+                        displayChatGPTReply(message.reply_message);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while fetching messages');
+                }
+            });
+        }
+        getAndDisplayMessages();
 
     });
 </script>

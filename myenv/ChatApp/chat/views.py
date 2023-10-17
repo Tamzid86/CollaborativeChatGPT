@@ -1,7 +1,6 @@
 import openai
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-
 from .models import ErrorReport, Message, Room
 
 
@@ -29,37 +28,38 @@ def checkview(request):
         new_room.save()
         return redirect('/'+room+'/?username='+username)
 
-def send(request):
-    message = request.POST['message']
-    username = request.POST['username']
-    room_id = request.POST['room_id']
-
-    new_message = Message.objects.create(value=message, user=username, room=room_id)
-    new_message.save()
-    return HttpResponse('Message sent successfully')
-
 def getMessages(request, room):
     room_details = Room.objects.get(name=room)
 
     messages = Message.objects.filter(room=room_details.id)
-    return JsonResponse({"messages":list(messages.values())})
+    message_list = []
+    for message in messages:
+        message_list.append({
+            "value": message.value,
+            "date": message.date.strftime("%Y-%m-%d %H:%M:%S"),
+            "user": message.user,
+            "reply_message": message.reply_message,
+        })
+
+    return JsonResponse({"messages": message_list})
 
 def getResponse(request):
     message = request.POST['message']
     username = request.POST['username']
     room_id = request.POST['room_id']
-    openai.api_key = "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"
+    openai.api_key = "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"
     # Call the ChatGPT API to generate a response
     response = openai.Completion.create(
         engine="text-davinci-002",  # Specify the ChatGPT engine
         prompt=f"You are in room {room_id}. User {username}: {message}\n",
         max_tokens=1000,  # Adjust this based on your desired response length
     )
-
+    
     generated_message = response.choices[0].text.strip()
 
     # Create a new Message object with the generated response
-    new_message = Message.objects.create(value=generated_message, user="ChatGPT", room=room_id)
+    new_message = Message.objects.create(value=message, user=username, room=room_id, reply_message=generated_message)
+
     new_message.save()
     
     return HttpResponse(generated_message)
