@@ -47,7 +47,7 @@ def getResponse(request):
     message = request.POST['message']
     username = request.POST['username']
     room_id = request.POST['room_id']
-    openai.api_key = "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"
+    openai.api_key = "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"
     # Call the ChatGPT API to generate a response
     response = openai.Completion.create(
         engine="text-davinci-002",  # Specify the ChatGPT engine
@@ -66,17 +66,19 @@ def getResponse(request):
 
 def reportError(request):
     if request.method == 'POST':
+        users_original_message = request.POST.get('userMainMessage','')
         error_types = request.POST.getlist('errorTypes')  # Get the list of error types
-        main_message = request.POST.get('mainMessage', '')
+        main_reply = request.POST.get('mainReply', '')
         user_remarks = request.POST.get('userRemarks', '')
+        print(f"users_original_message: {users_original_message}")
         print(f"Error_types: {error_types}")
-        print(f"Main_message: {main_message}")
+        print(f"Main_message: {main_reply}")
         print(f"User_remarks: {user_remarks}")
 
-        if error_types and main_message:
+        if error_types and main_reply and users_original_message:
             # Process the list of error types here
             for error_type in error_types:
-                error_report = ErrorReport(error_type=error_type, main_message=main_message, user_remarks=user_remarks)
+                error_report = ErrorReport(users_original_message= users_original_message,error_type=error_type, main_reply=main_reply, user_remarks=user_remarks)
                 error_report.save()
             
             return JsonResponse({'message': 'Error reported successfully'})

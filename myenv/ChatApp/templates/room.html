@@ -1,288 +1,382 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-        body {
-            margin: 0 auto;
-            max-width: 800px;
-        }
+      body {
+        margin: 0 auto;
+        max-width: 800px;
+      }
 
-        .container {
-            border: 2px solid #dedede;
-            background-color: #f1f1f1;
-            border-radius: 5px 80px 80px 5px;
-            padding-top: 15px;
-            margin: 20px 0;
-        }
+      .container {
+        border: 2px solid #dedede;
+        background-color: #f1f1f1;
+        border-radius: 5px 80px 80px 5px;
+        padding-top: 15px;
+        margin: 20px 0;
+      }
 
-        .darker {
-            border-color: #ccc;
-            background-color: #e7e7e7;
-            margin-left: auto;
-            background-color: #d2e3b1;
-            color: black;
-            border-radius: 80px 5px 5px 80px;
-            text-align: right;
-            padding-left: 580px;
-        }
+      .darker {
+        border-color: #ccc;
+        background-color: #e7e7e7;
+        margin-left: auto;
+        background-color: #d2e3b1;
+        color: black;
+        border-radius: 80px 5px 5px 80px;
+        text-align: right;
+        padding-left: 580px;
+      }
 
-        .container::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
+      .container::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
 
-        .container img {
-            float: left;
-            max-width: 60px;
-            width: 100%;
-            margin-right: 20px;
-            border-radius: 80px 5px 5px 80px;
-        }
+      .container img {
+        float: left;
+        max-width: 60px;
+        width: 100%;
+        margin-right: 20px;
+        border-radius: 80px 5px 5px 80px;
+      }
 
-        .container img.right {
-            float: right;
-            margin-left: 20px;
-            margin-right: 0;
-        }
+      .container img.right {
+        float: right;
+        margin-left: 20px;
+        margin-right: 0;
+      }
 
-        .time-right {
-            float: right;
-            color: #aaa;
-        }
+      .time-right {
+        float: right;
+        color: #aaa;
+      }
 
-        .time-left {
-            float: left;
-            color: #999;
-        }
-        .selected-text {
-            background-color: red;
-            cursor: pointer;
-        }
+      .time-left {
+        float: left;
+        color: #999;
+      }
+      .selected-text {
+        background-color: red;
+        cursor: pointer;
+      }
 
-        .error-section {
-            background-color:  #999;
-            border: 1px solid  #999;
-            padding: 10px;
-            display: none;
-        }
+      .error-section {
+        background-color: #999;
+        border: 1px solid #999;
+        padding: 10px;
+        display: none;
+      }
 
-        .error-heading {
-            font-weight: bold;
-            font-size: 18px;
-        }
+      .error-heading {
+        font-weight: bold;
+        font-size: 18px;
+      }
 
-        .error-options {
-            margin-top: 10px;
-        }
+      .error-options {
+        margin-top: 10px;
+      }
 
-        input[type=text],
-        select {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
 
-        input[type=submit] {
-            width: 100%;
-            background-color: #2791cf;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+      input[type="submit"] {
+        width: 100%;
+        background-color: #2791cf;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 
-        input[type=submit]:hover {
-            background-color: #45a049;
-        }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
 
-        div {
-            border-radius: 5px;
-            background-color: #3f3f3f;
-            padding: 20px;
-        }
+      div {
+        border-radius: 5px;
+        background-color: #3f3f3f;
+        padding: 20px;
+      }
     </style>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-</head>
-<body>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <h2>{{ room }} - Study With ChatGPT</h2>
     <div id="display"></div>
     <div class="error-section">
-        <h3 class="error-heading">Select error type(s):</h3>
-        <div class="error-options">
-            <input type="checkbox" id="spelling-error" name="errorTypes" value="spelling-error">
-            <label for="spelling-error">Spelling Error</label><br>
-            <input type="checkbox" id="logical-error" name="errorTypes" value="logical-error">
-            <label for="logical-error">Logical Error</label><br>
-            <input type="checkbox" id="information-error" name="errorTypes" value="information-error">
-            <label for="information-error">Information Error</label><br>
-            <input type="checkbox" id="solution-error" name="errorTypes" value="solution-error">
-            <label for="solution-error">Solution Does Not Work</label><br>
-        </div>
-        <textarea id="user-remarks" style="width: 100%; height: 100px;" placeholder="User Remarks"></textarea>
-        <button id="send-error">Send Error</button>
+      <h3 class="error-heading">Select error type(s):</h3>
+      <div class="error-options">
+        <input
+          type="checkbox"
+          id="spelling-error"
+          name="errorTypes"
+          value="spelling-error"
+        />
+        <label for="spelling-error">Spelling Error</label><br />
+        <input
+          type="checkbox"
+          id="logical-error"
+          name="errorTypes"
+          value="logical-error"
+        />
+        <label for="logical-error">Logical Error</label><br />
+        <input
+          type="checkbox"
+          id="information-error"
+          name="errorTypes"
+          value="information-error"
+        />
+        <label for="information-error">Information Error</label><br />
+        <input
+          type="checkbox"
+          id="solution-error"
+          name="errorTypes"
+          value="solution-error"
+        />
+        <label for="solution-error">Solution Does Not Work</label><br />
+      </div>
+      <textarea
+        id="user-remarks"
+        style="width: 100%; height: 100px"
+        placeholder="User Remarks"
+      ></textarea>
+      <button id="send-error">Send Error</button>
     </div>
-<script>
-    $(document).ready(function () {
+    <script>
+      $(document).ready(function () {
         var selectionMode = false;
-        var selectedText = '';
+        var selectedText = "";
+        var message = "";
+        var user_remarks = "";
         function getCurrentTime() {
-            var now = new Date();
-            var hours = now.getHours();
-            var minutes = now.getMinutes();
-            return hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+          var now = new Date();
+          var hours = now.getHours();
+          var minutes = now.getMinutes();
+          return hours + ":" + (minutes < 10 ? "0" : "") + minutes;
         }
 
         // Function to display user message
         function displayUserMessage(user, value, date) {
-            var temp = "<div class='container'><b>" + user + "</b><p>" + value + "</p><span class='time-left'>" + date + "</span></div>";
-            $("#display").append(temp);
+          var temp =
+            "<div class='container'><b>" +
+            user +
+            "</b><p>" +
+            value +
+            "</p><span class='time-left'>" +
+            date +
+            "</span></div>";
+          $("#display").append(temp);
         }
 
         // Function to display ChatGPT message
         function displayChatGPTReply(value) {
-            var temp = "<div class='container darker'><b>ChatGPT</b><p class='chat-text'>" + value + "</p><span class='time-right'>" + getCurrentTime() + "</span></div>";
-            $("#display").append(temp);
+          var temp =
+            "<div class='container darker'><b>ChatGPT</b><p class='chat-text'>" +
+            value +
+            "</p><span class='time-right'>" +
+            getCurrentTime() +
+            "</span></div>";
+          $("#display").append(temp);
 
-            // Attach a click event listener to the chat-text elements
-            $(".chat-text").last().click(function () {
-                if (!selectionMode) {
-                    selectionMode = true;
-                    selectedText = $(this).text(); // Store the selected text
-                    $(this).addClass("selected-text");
-                    $(".error-section").show();
-                } else {
-                    selectionMode = false;
-                    selectedText = '';
-                    $(this).removeClass("selected-text");
-                    $(".error-section").hide();
-                    // Clear text area
-                    $('#user-remarks').val('');
-                    // Uncheck checkboxes
-                    $('input[type=checkbox]').prop('checked', false);
-                }
+          // Attach a click event listener to the chat-text elements
+          $(".chat-text")
+            .last()
+            .click(function () {
+              if (!selectionMode) {
+                selectionMode = true;
+                selectedText = $(this).text(); // Store the selected text
+                $(this).addClass("selected-text");
+                $(".error-section").show();
+              } else {
+                selectionMode = false;
+                selectedText = "";
+                $(this).removeClass("selected-text");
+                $(".error-section").hide();
+                // Clear text area
+                $("#user-remarks").val("");
+                // Uncheck checkboxes
+                $("input[type=checkbox]").prop("checked", false);
+              }
             });
         }
         // function to handle error submission
-        $('#send-error').click(function () {
-            if (selectionMode && selectedText) {
-                var errorTypes = [];
-                if ($('#spelling-error').is(':checked')) {
-                    errorTypes.push("Spelling Error");
-                }
-                if ($('#logical-error').is(':checked')) {
-                    errorTypes.push("Logical Error");
-                }
-                if ($('#information-error').is(':checked')) {
-                    errorTypes.push("Information Error");
-                }
-                if ($('#solution-error').is(':checked')) {
-                    errorTypes.push("Solution Does Not Work");
-                }
-                console.log(errorTypes);
-                var errors = JSON.stringify(errorTypes);
-                // Update the hidden form fields with selected error type, text, and user remarks
-                var errorData = {
-                    errorTypes: errors,
-                    mainMessage: selectedText,
-                    userRemarks: $('#user-remarks').val(),
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/reportError',
-                    data: errorData,
-                    success: function () {
-                        alert('Error reported successfully');
-                        selectionMode = false;
-                        $(".error-section").hide();
-                        // Clear text area
-                        $('#user-remarks').val('');
-                        // Uncheck checkboxes
-                        $('input[type=checkbox]').prop('checked', false);
-                        // Deselect generated message
-                        $('#generated-message').removeClass("selected-text");
-                    },
-                    error: function () {
-                        alert('An error occurred while reporting the error');
-                    },
-                });
+        $("#send-error").click(function () {
+          user_remarks = $("#user-remarks").val();
+          if (selectionMode && selectedText) {
+            var errorTypes = [];
+            if ($("#spelling-error").is(":checked")) {
+              errorTypes.push("Spelling Error");
             }
-        });
-        // Function to handle form submission
-        function handleSubmit() {
-            var message = $('#message').val();
-            var username = $('#username').val();
-            var room_id = $('#room_id').val();
+            if ($("#logical-error").is(":checked")) {
+              errorTypes.push("Logical Error");
+            }
+            if ($("#information-error").is(":checked")) {
+              errorTypes.push("Information Error");
+            }
+            if ($("#solution-error").is(":checked")) {
+              errorTypes.push("Solution Does Not Work");
+            }
 
+            console.log(errorTypes);
+
+            var errors = JSON.stringify(errorTypes);
+
+            // Update the hidden form fields with selected error type, text, and user remarks
+            var errorData = {
+              userMainMessage: message,
+              errorTypes: errors,
+              mainReply: selectedText,
+              userRemarks: user_remarks,
+              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            };
+
+            // First AJAX request to report the error
             $.ajax({
-                type: 'POST',
-                url: '/getResponse',  // Call the getResponse view
-                data: {
+              type: "POST",
+              url: "/reportError",
+              data: errorData,
+              success: function () {
+                alert("Error reported successfully");
+                selectionMode = false;
+                $(".error-section").hide();
+                // Clear text area
+                $("#user-remarks").val("");
+                // Uncheck checkboxes
+                $("input[type=checkbox]").prop("checked", false);
+                // Deselect generated message
+                $("#generated-message").removeClass("selected-text");
+                // After reporting the error, proceed with the second AJAX request
+                var username = $("#username").val();
+                var room_id = $("#room_id").val();
+                console.log(user_remarks);
+                message =
+                  "I have said to you that " +
+                  message +
+                  " Your Response is : " +
+                  selectedText +
+                  ". I think it is " +
+                  user_remarks +
+                  " and your response has ";
+                for (var i = 0; i < errorTypes.length; i++) {
+                  message += errorTypes[i] + " ";
+                }
+                message += ". Please correct this errors";
+                // Second AJAX request to get a response
+                $.ajax({
+                  type: "POST",
+                  url: "/getResponse",
+                  data: {
                     username: username,
                     room_id: room_id,
                     message: message,
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                },
-                success: function (data) {
+                    csrfmiddlewaretoken: $(
+                      "input[name=csrfmiddlewaretoken]"
+                    ).val(),
+                  },
+                  success: function (data) {
                     displayUserMessage(username, message, getCurrentTime());
                     displayChatGPTReply(data); // Display ChatGPT response
-                },
-                error: function (response) {
-                    alert('An error occurred');
-                }
+                  },
+                  error: function (response) {
+                    alert("An error occurred");
+                  },
+                });
+              },
+              error: function () {
+                alert("An error occurred while reporting the error");
+              },
             });
+          }
+        });
 
-            $('#message').val(''); // Clear the message input field
+        // Function to handle form submission
+        function handleSubmit() {
+          message = $("#message").val();
+          var username = $("#username").val();
+          var room_id = $("#room_id").val();
+
+          $.ajax({
+            type: "POST",
+            url: "/getResponse", // Call the getResponse view
+            data: {
+              username: username,
+              room_id: room_id,
+              message: message,
+              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function (data) {
+              displayUserMessage(username, message, getCurrentTime());
+              displayChatGPTReply(data); // Display ChatGPT response
+            },
+            error: function (response) {
+              alert("An error occurred");
+            },
+          });
+          $("#message").val(""); // Clear the message input field
         }
 
         // Bind the form submission to the function
-        $('#post-form').on('submit', function (e) {
-            e.preventDefault();
-            handleSubmit();
+        $("#post-form").on("submit", function (e) {
+          e.preventDefault();
+          handleSubmit();
         });
 
         function getAndDisplayMessages() {
-            var roomName = "{{ room }}";
-            console.log(roomName);
-            $.ajax({
-                type: 'GET',
-                url: "/getMessages/{{room}}/",
-                success: function (data) {
-                    var messages = data.messages;
-                    for (var message of messages) {
-                        displayUserMessage(message.user, message.value, message.date);
-                        displayChatGPTReply(message.reply_message);
-                    }
-                },
-                error: function () {
-                    alert('An error occurred while fetching messages');
-                }
-            });
+          var roomName = "{{ room }}";
+          console.log(roomName);
+          $.ajax({
+            type: "GET",
+            url: "/getMessages/{{room}}/",
+            success: function (data) {
+              var messages = data.messages;
+              for (var message of messages) {
+                displayUserMessage(message.user, message.value, message.date);
+                displayChatGPTReply(message.reply_message);
+              }
+            },
+            error: function () {
+              alert("An error occurred while fetching messages");
+            },
+          });
         }
         getAndDisplayMessages();
+      });
+    </script>
 
-    });
-</script>
-
-<div class="containerr">
-    <form id="post-form">
+    <div class="containerr">
+      <form id="post-form">
         {% csrf_token %}
-        <input type="hidden" name="username" id="username" value="{{ username }}" />
-        <input type="hidden" name="room_id" id="room_id" value="{{ room_details.id }}" />
+        <input
+          type="hidden"
+          name="username"
+          id="username"
+          value="{{ username }}"
+        />
+        <input
+          type="hidden"
+          name="room_id"
+          id="room_id"
+          value="{{ room_details.id }}"
+        />
         <input type="text" name="message" id="message" width="100px" />
-        <input type="submit" value="Send">
-    </form>
-</div>
-</body>
+        <input type="submit" value="Send" />
+      </form>
+    </div>
+  </body>
 </html>

@@ -13,6 +13,7 @@ class Message(models.Model):
     reply_message = models.CharField(max_length=10000000, default="Nothing to say")
 
 class ErrorReport(models.Model):
+    users_original_message = models.CharField(max_length=1000000, default=" ")
     error_type = models.CharField(max_length=100)
-    main_message = models.CharField(max_length=1000000)
+    main_reply = models.CharField(max_length=1000000, default=" ")
     user_remarks = models.CharField(max_length=1000000)
