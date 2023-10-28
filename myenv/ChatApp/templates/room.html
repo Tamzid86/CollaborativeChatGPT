@@ -5,14 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body {
+        background-color: #9cd1db;
         margin: 0 auto;
         max-width: 800px;
       }
 
+      .chat-container {
+        margin-top: 90px;
+        height: 600px;
+        overflow-y: auto;
+      }
+
       .container {
-        border: 2px solid #dedede;
-        background-color: #f1f1f1;
-        border-radius: 5px 80px 80px 5px;
+        
+        background-color: #c3c3c3;
+        border-radius: 5px 40px 40px 5px;
         padding-top: 15px;
         margin: 20px 0;
       }
@@ -23,9 +30,9 @@
         margin-left: auto;
         background-color: #d2e3b1;
         color: black;
-        border-radius: 80px 5px 5px 80px;
+        border-radius: 40px 5px 5px 40px;
         text-align: right;
-        padding-left: 580px;
+        padding-left: 20px;
       }
 
       .container::after {
@@ -99,14 +106,25 @@
         border-radius: 4px;
         cursor: pointer;
       }
-
+      #room-title {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #2791cf;
+        color: white;
+        padding: 10px;
+        margin: 0;
+        border-radius: 10px 10px 0 0;
+      }
+      
       input[type="submit"]:hover {
-        background-color: #45a049;
+        background-color: #114361;
       }
 
       div {
-        border-radius: 5px;
-        background-color: #3f3f3f;
+        
+        background-color: #fff;
         padding: 20px;
       }
     </style>
@@ -117,8 +135,11 @@
     ></script>
   </head>
   <body>
-    <h2>{{ room }} - Study With ChatGPT</h2>
-    <div id="display"></div>
+    <h2 id="room-title">{{ room }} - Study With ChatGPT</h2>
+
+    <div class="chat-container">
+      <div id="display"></div>
+    </div>
     <div class="error-section">
       <h3 class="error-heading">Select error type(s):</h3>
       <div class="error-options">
@@ -375,7 +396,7 @@
           value="{{ room_details.id }}"
         />
         <input type="text" name="message" id="message" width="100px" />
-        <input type="submit" value="Send" />
+        <input type="submit" value="Ask ChatGPT" />
       </form>
     </div>
   </body>
